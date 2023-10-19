@@ -5,8 +5,8 @@ A collection of useful bits and bobs for programming the
 
 **WARNING**:
 This crate is mostly for exploration/fun, and probably shouldn't be used in a production environment. It is **NOT**
-tested, and won't be published to `crates.io` for that reason. Instead, please use the following format in your crate's
-`Cargo.toml` manifest to add this package to your crate:
+tested, and won't be published to `crates.io` or semantically versioned for that reason. Instead, please use the 
+following format in your crate's `Cargo.toml` manifest to add this package to your crate:
 ```toml
 [dependencies]
 # ...
