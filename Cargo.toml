@@ -1,0 +1,19 @@
+[package]
+name = "weensy"
+description = "A collection of useful bits and bobs for programming the Teensy 4.1 microcontroller."
+version = "0.0.0"
+edition = "2021"
+homepage = "https://github.com/speelbarrow/weensy.rs"
+repository = "https://github.com/speelbarrow/weensy.rs"
+license = "GPL-3.0"
+publish = false
+
+[dependencies]
+teensy4-bsp = "0.4.4"
+log = { version = "0.4", optional = true }
+
+[features]
+default = ["t4bsp-rt"]
+t4bsp-rt = ["teensy4-bsp/rt"]
+t4bsp-usb-logging = ["teensy4-bsp/usb-logging"]
+log = ["t4bsp-usb-logging", "dep:log"]
