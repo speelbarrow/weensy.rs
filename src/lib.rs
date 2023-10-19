@@ -7,9 +7,13 @@ use teensy4_bsp::{
     pins::t41::P13,
 };
 
+/// Functions for initialization of peripherals et. al.
+pub mod init;
+
 /**
-Flashes the LED three times with a 500ms delay, then three times with a 250ms delay. Useful if you want to open the
-serial console before your actual program starts running. Returns the [`Led`] instance afterwards.
+Initializes then flashes the board's LED three times with a 500ms delay, then three times with a 250ms delay. Useful if
+you want time to open the serial console before your actual program starts running. Returns the [`Led`] instance
+afterwards.
 
 [`Led`]: teensy4_bsp::board::Led
 */
