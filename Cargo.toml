@@ -13,6 +13,7 @@ teensy4-bsp = "0.4.4"
 embedded-hal = "0.2"
 
 [features]
+default = ["t4bsp-rt"]
 t4bsp-rt = ["teensy4-bsp/rt"]
 t4bsp-usb-logging = ["teensy4-bsp/usb-logging"]
 embd-hal-unproven = ["embedded-hal/unproven"]
