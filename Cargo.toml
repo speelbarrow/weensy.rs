@@ -10,11 +10,9 @@ publish = false
 
 [dependencies]
 teensy4-bsp = "0.4.4"
-log = { version = "0.4", optional = true }
-embedded-hal = { version = "0.2.7", features = ["unproven"] }
+embedded-hal = "0.2"
 
 [features]
-default = ["t4bsp-rt"]
 t4bsp-rt = ["teensy4-bsp/rt"]
 t4bsp-usb-logging = ["teensy4-bsp/usb-logging"]
-log = ["t4bsp-usb-logging", "dep:log"]
+embd-hal-unproven = ["embedded-hal/unproven"]

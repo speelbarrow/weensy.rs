@@ -1,11 +1,16 @@
 #![no_std]
 
-use embedded_hal::digital::v2::OutputPin;
+// This `cfg` guard will be removed once there are other functions in the top level of the crate.
+// Right now it is just here to avoid the "unused import" warning.
+#[cfg(feature = "embd-hal-unproven")]
 use teensy4_bsp::{
     board::{led as get_led, Led},
     hal::{gpio::Port, gpt::Gpt, timer::Blocking},
     pins::t41::P13,
 };
+
+#[cfg(feature = "embd-hal-unproven")]
+use embedded_hal::digital::v2::OutputPin;
 
 /// Functions for initialization of peripherals et. al.
 pub mod init;
@@ -17,6 +22,7 @@ afterwards.
 
 [`Led`]: teensy4_bsp::board::Led
 */
+#[cfg(feature = "embd-hal-unproven")]
 pub fn countdown<const N: u8, const HZ: u32>(
     gpio2: &mut Port<2>,
     p13: P13,
