@@ -34,7 +34,7 @@ const DEFAULT_LOG: LoggingFrontend = LoggingFrontend::default_log();
 Initializes a [USB] peripheral for logging over a serial connection. See [log] for more info.
 
 [USB]: teensy4_bsp::hal::usbd::Instances<1>
-[log]: ::log
+[log]: https://docs.rs/log/latest/log/
 */
 #[cfg(feature = "t4bsp-usb-logging")]
 pub fn log(usb: Instances<1>) {
