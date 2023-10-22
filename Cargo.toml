@@ -29,3 +29,6 @@ default = ["t4bsp-rt"]
 t4bsp-rt = ["teensy4-bsp/rt"]
 t4bsp-usb-logging = ["teensy4-bsp/usb-logging"]
 embd-hal-unproven = ["embedded-hal/unproven"]
+
+[package.metadata.docs.rs]
+all-features = true
