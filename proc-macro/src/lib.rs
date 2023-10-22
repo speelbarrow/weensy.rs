@@ -1,4 +1,5 @@
 use proc_macro::TokenStream;
+use proc_macro2::TokenStream as TokenStream2;
 use quote::quote;
 use syn::{parse_macro_input, punctuated::Punctuated, ItemFn, ReturnType, Signature, Token, Type};
 
@@ -26,6 +27,21 @@ fn main() -> ! {
 #    0
 # }
 ```
+``` compile_fail
+# #![no_main]
+use weensy::entry;
+#[entry]
+# #[export_name = "_not_main"]
+// Signature must be `fn main() -> !`
+fn main() {
+    // ...
+#    loop{}
+# }
+# #[export_name = "main"]
+# fn _main() -> i32 {
+#    0
+# }
+```
 
 [resources]: teensy4_bsp::board::Resources
 [`t41`]: teensy4_bsp::board::t41
@@ -38,7 +54,9 @@ pub fn entry(attr: TokenStream, input: TokenStream) -> TokenStream {
         sig,
         block,
     } = parse_macro_input!(input as ItemFn);
-    verify_signature(&sig);
+    if let Err(e) = verify_signature(&sig) {
+        return e.into();
+    };
 
     let resources = {
         if attr.is_empty() {
@@ -67,22 +85,22 @@ pub fn entry(attr: TokenStream, input: TokenStream) -> TokenStream {
     .into()
 }
 
-fn verify_signature(signature: &Signature) {
+fn verify_signature(signature: &Signature) -> Result<(), TokenStream2> {
     macro_rules! is {
         (@some $( $prop: ident ).+, $value: expr) => {
-            is!(@ne $( $prop ).+, Some($value))
+            is!(@eq $( $prop ).+, Some($value))
         };
         (@none $( $prop: ident ).+) => {
-            is!(@ne $( $prop ).+, None)
+            is!(@eq $( $prop ).+, None)
         };
         (@eq $( $prop: ident ).+, $value: expr) => {
-            is!( signature.$( $prop ).+ == $value, &signature.$( $prop ).+ )
+            is!( signature.$( $prop ).+ != $value, &signature.$( $prop ).+ )
         };
         (@ne $( $prop: ident ).+, $value: expr) => {
-            is!( signature.$( $prop ).+ != $value, &signature.$( $prop ).+ );
+            is!( signature.$( $prop ).+ == $value, &signature.$( $prop ).+ );
         };
         (@empty $( $prop: ident ).+) => {
-            is!( signature.$( $prop ).+.is_empty(), &signature.$( $prop ).+ );
+            is!( !signature.$( $prop ).+.is_empty(), &signature.$( $prop ).+ );
         };
         (@matches $lhs: pat, $( $prop: ident ).+, $out: expr) => {
             if let $lhs = $( $prop ).+ {
@@ -95,10 +113,10 @@ fn verify_signature(signature: &Signature) {
             }
         };
         (@err $out: expr) => {
-            syn::Error::new_spanned(
+            return Err(syn::Error::new_spanned(
                 $out,
                 "this attribute may only be applied to a function with the signature `fn() main -> !`",
-            ).to_compile_error();
+            ).to_compile_error());
         };
     }
 
@@ -116,7 +134,7 @@ fn verify_signature(signature: &Signature) {
 
     if let ReturnType::Type(_, boxed) = &signature.output {
         if let Type::Never(_) = **boxed {
-            return;
+            return Ok(());
         }
     }
 

@@ -1,4 +1,4 @@
 /target/
 /Cargo.lock
-
+/.cargo/config.toml
 .DS_Store
