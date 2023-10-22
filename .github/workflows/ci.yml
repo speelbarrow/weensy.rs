@@ -6,6 +6,7 @@ on:
       - '**Cargo.toml'
       - .github/workflows/ci.yml
       - .github/actions/*/action.yml
+    branches: [ '**' ]
 
 jobs:
   test:
@@ -28,12 +29,12 @@ jobs:
       - name: Create a Cargo package containing a binary crate
         working-directory: ../
         run: cargo new --bin --vcs=none test-bin
-      - name: Define dependencies of the package
-        working-directory: ../test-bin
+      - name: Add `weensy` as a dependency of the package
         run: |
-          echo 'weensy = { path = "../weensy/", features = ["t4bsp-rt"] }' \
-            >> Cargo.toml
-          cargo add teensy4-bsp teensy4-panic -F teensy4-bsp/rt
+          echo "weensy = { path = '`pwd`' }" >> ../test-bin/Cargo.toml
+      - name: Define additional dependencies of the package
+        working-directory: ../test-bin
+        run: cargo add teensy4-bsp teensy4-panic -F teensy4-bsp/rt
       - name: Create the `main` program
         working-directory: ../test-bin
         run: |
