@@ -1,5 +1,12 @@
 name: CI
-on: push
+on:
+  push:
+    paths:
+      - '**.rs'
+      - '**Cargo.toml'
+      - .github/workflows/ci.yml
+      - .github/actions/*/action.yml
+
 jobs:
   test:
     name: Run tests
