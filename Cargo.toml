@@ -10,11 +10,11 @@ publish.workspace = true
 
 [workspace.package]
 description = "A collection of useful bits and bobs for programming the Teensy 4.1 microcontroller."
-version = "0.1.1"
+version = "0.1.2"
 homepage = "https://github.com/speelbarrow/weensy.rs"
 repository = "https://github.com/speelbarrow/weensy.rs"
 license = "GPL-3.0"
-publish = false
+publish = true
 
 [workspace]
 members = ["proc-macro"]
@@ -22,7 +22,7 @@ members = ["proc-macro"]
 [dependencies]
 teensy4-bsp = "0.4.4"
 embedded-hal = "0.2"
-weensy-proc-macro = { path = "proc-macro", version = "0.1.1" }
+weensy-proc-macro = { path = "proc-macro", version = "0.1.2" }
 
 [features]
 default = ["t4bsp-rt"]
