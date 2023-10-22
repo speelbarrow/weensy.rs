@@ -1,3 +1,5 @@
+#![cfg_attr(not(test), no_std)]
+
 // Re-export of sub-crate's procedural macros.
 pub use weensy_proc_macro::*;
 
@@ -22,8 +24,7 @@ you want time to open the serial console before your actual program starts runni
 afterwards.
 
 ```
-#![no_std]
-#![no_main]
+# #![no_main]
 use weensy::{entry, init, countdown};
 
 #[entry(gpt1, mut gpio2, pins[13])]

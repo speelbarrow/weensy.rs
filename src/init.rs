@@ -17,11 +17,11 @@ Initializes the provided [GPT] to run at the specified `HZ` using the [high freq
 This function consumes the [GPT] instance provided to it.
 
 ```
-#![no_std]
-#![no_main]
+# #![no_main]
 use weensy::{entry, init};
 
 #[entry(mut gpt1)]
+# #[export_name = "_not_main"]
 fn main() -> ! {
     let mut delay = init::delay::<1, 1000>(gpt1);
     // ...
@@ -53,11 +53,11 @@ Initializes a [USB] peripheral for logging over a serial connection. See [log] f
 This function consumes the [USB] instance provided to it.
 
 ```
-#![no_std]
-#![no_main]
+# #![no_main]
 use weensy::{entry, init};
 
 #[entry(usb)]
+# #[export_name = "_not_main"]
 fn main() -> ! {
     init::log(usb);
     // ...
