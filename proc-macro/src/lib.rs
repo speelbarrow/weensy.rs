@@ -32,9 +32,6 @@ fn main() -> ! {
 */
 #[proc_macro_attribute]
 pub fn entry(attr: TokenStream, input: TokenStream) -> TokenStream {
-    let args = parse_macro_input!(attr with Punctuated::<Arg, Token![,]>::parse_separated_nonempty)
-        .into_iter();
-
     let ItemFn {
         attrs,
         vis,
@@ -44,16 +41,19 @@ pub fn entry(attr: TokenStream, input: TokenStream) -> TokenStream {
     verify_signature(&sig);
 
     let resources = {
-        if args.len() != 0 {
-            Some(quote! {
-                let teensy4_bsp::board::Resources {
-                    #(#args),* , ..
-                } = teensy4_bsp::board::t41(teensy4_bsp::board::instances());
-            })
-        } else {
+        if attr.is_empty() {
             None
+        } else {
+            Some(parse_macro_input!(attr with Punctuated::<Arg, Token![,]>::parse_separated_nonempty)
+                .into_iter())
         }
-    };
+    }.map(|args| {
+        quote! {
+            let teensy4_bsp::board::Resources {
+                #(#args),* , ..
+            } = teensy4_bsp::board::t41(teensy4_bsp::board::instances());
+        }
+    });
 
     quote! {
         #[no_mangle]
