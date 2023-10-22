@@ -15,4 +15,42 @@ jobs:
       - name: Checkout and setup
         uses: speelbarrow/checkout-and-setup@v1
       - name: Run tests
-        run: cargo test --workspace --all-features
+        run: cargo test --workspace
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout and setup
+        uses: speelbarrow/checkout-and-setup@v1
+        with:
+          variables: thumbv7em-none-eabihf
+      - name: Create a Cargo package containing a binary crate
+        working-directory: ../
+        run: cargo new --bin --vcs=none test-bin
+      - name: Define dependencies of the package
+        working-directory: ../test-bin
+        run: |
+          echo 'weensy = { path = "../weensy/", features = ["t4bsp-rt"] }' \
+            >> Cargo.toml
+          cargo add teensy4-bsp teensy4-panic -F teensy4-bsp/rt
+      - name: Create the `main` program
+        working-directory: ../test-bin
+        run: |
+          cat <<EOF > src/main.rs
+          #![no_std]
+          #![no_main]
+          use teensy4_bsp as _;
+          use teensy4_panic as _;
+          #[weensy::entry]
+          fn main() -> ! {
+            loop {}
+          }
+          EOF
+      - name: Build the package
+        working-directory: ../test-bin
+        run: |
+          cargo build \
+            --target thumbv7em-none-eabihf \
+            --config 'target.thumbv7em-none-eabihf.rustflags = ["-C", "link-arg=-Tt4link.x"]' \
+            --release

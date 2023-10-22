@@ -18,3 +18,5 @@ runs:
           target/
         key: rust-${{ hashFiles('Cargo.toml') }}
     - uses: dtolnay/rust-toolchain@stable
+      with:
+        targets: ${{ inputs.variables }}
