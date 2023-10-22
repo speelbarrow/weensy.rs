@@ -1,4 +1,4 @@
-# weensy.rs [![CI](https://github.com/speelbarrow/weensy.rs/actions/workflows/ci.yml/badge.svg)](https://github.com/speelbarrow/weensy.rs/actions/workflows/ci.yml)
+# weensy.rs [![CI/CD](https://github.com/speelbarrow/weensy.rs/actions/workflows/cicd.yml/badge.svg)](https://github.com/speelbarrow/weensy.rs/actions/workflows/cicd.yml)
 
 A collection of useful bits and bobs for programming the 
 [Teensy 4.1 microcontroller](https://www.pjrc.com/store/teensy41.html) using [Rust](https://rust-lang.org).

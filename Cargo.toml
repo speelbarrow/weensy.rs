@@ -14,7 +14,7 @@ version = "0.1.1"
 homepage = "https://github.com/speelbarrow/weensy.rs"
 repository = "https://github.com/speelbarrow/weensy.rs"
 license = "GPL-3.0"
-publish = true
+publish = false
 
 [workspace]
 members = ["proc-macro"]
