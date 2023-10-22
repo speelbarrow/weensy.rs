@@ -1,0 +1,22 @@
+name: CI/CD
+on:
+  push:
+    tags: [ 'v*' ] 
+
+jobs:
+  CI:
+    uses: ./.github/workflows/ci.yml
+
+  CD:
+    name: CD
+    needs: CI
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout and setup
+        uses: speelbarrow/checkout-and-setup@v1
+      - name: Publish to crates.io
+        working-directory: proc-macro
+        run: |
+          cargo publish --token ${{ secrets.CRATES_IO_TOKEN }}
+          cd ..
+          cargo publish --token ${{ secrets.CRATES_IO_TOKEN }}
