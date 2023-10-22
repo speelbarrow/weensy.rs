@@ -16,6 +16,23 @@ Initializes the provided [GPT] to run at the specified `HZ` using the [high freq
 
 This function consumes the [GPT] instance provided to it.
 
+```
+#![no_std]
+#![no_main]
+use weensy::{entry, init};
+
+#[entry(mut gpt1)]
+fn main() -> ! {
+    let mut delay = init::delay::<1, 1000>(gpt1);
+    // ...
+#   loop {}
+# }
+# #[export_name = "main"]
+# fn _main() -> i32 {
+#      0
+# }
+```
+
 [GPT]: teensy4_bsp::hal::gpt::Gpt
 [high frequency reference clock]: teensy4_bsp::hal::gpt::ClockSource::HighFrequencyReferenceClock
 [Blocking]: teensy4_bsp::hal::timer::Blocking
@@ -32,6 +49,25 @@ pub fn delay<const N: u8, const HZ: u32>(mut gpt: Gpt<N>) -> Blocking<Gpt<N>, HZ
 const DEFAULT_LOG: LoggingFrontend = LoggingFrontend::default_log();
 /**
 Initializes a [USB] peripheral for logging over a serial connection. See [log] for more info.
+
+This function consumes the [USB] instance provided to it.
+
+```
+#![no_std]
+#![no_main]
+use weensy::{entry, init};
+
+#[entry(usb)]
+fn main() -> ! {
+    init::log(usb);
+    // ...
+#   loop {}
+# }
+# #[export_name = "main"]
+# fn _main() -> i32 {
+#      0
+# }
+```
 
 [USB]: teensy4_bsp::hal::usbd::Instances<1>
 [log]: https://docs.rs/log/latest/log/
