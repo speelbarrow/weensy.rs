@@ -1,5 +1,10 @@
 # CHANGELOG
 
+### [unreleased](https://github.com/speelbarrow/weensy.rs/blob/main)
+- Move the logic for the `entry` macro into [`entry.rs`
+  ](https://github.com/speelbarrow/weensy.rs/blob/proc-macro/src/entry.rs#L12), replace with a stub in [`lib.rs`
+  ](https://github.com/speelbarrow/weensy.rs/blob/proc-macro/src/lib.rs#L45)
+
 ### [v0.1.2](https://github.com/speelbarrow/weensy.rs/blob/v0.1.2)
 - Fix [verification of function signature by `entry` attribute
   macro](https://github.com/speelbarrow/weensy.rs/blob/v0.1.2/proc-macro/src/lib.rs#L88)
