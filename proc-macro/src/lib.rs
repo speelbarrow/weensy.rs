@@ -7,34 +7,21 @@ Configures your `main` function to be exported properly.
 Arguments may be passed to the attribute which will then be used to unpack the [resources] returned by the [`t41`]
 bootstraper.
 
-```
-# #![no_main]
+``` no_run
 use weensy::{init, entry};
 #[entry(usb, mut gpio2, pins[mut 12, 13])]
-# #[export_name = "_not_main"]
 fn main() -> ! {
     init::log(usb);
     // ...
-#    loop{}
-# }
-# #[export_name = "main"]
-# fn _main() -> i32 {
-#    0
+#   panic!()
 # }
 ```
-``` compile_fail
-# #![no_main]
+``` compile_fail no_run
 use weensy::entry;
 #[entry]
-# #[export_name = "_not_main"]
-// Signature must be `fn main() -> !`
-fn main() {
+fn main() { // Signature must be `fn main() -> !`
     // ...
 #    loop{}
-# }
-# #[export_name = "main"]
-# fn _main() -> i32 {
-#    0
 # }
 ```
 
